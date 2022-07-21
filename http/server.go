@@ -2,7 +2,10 @@ package http
 
 import (
 	"fmt"
-	"github.com/GeertJohan/go.rice"
+	"net/http"
+	"time"
+
+	rice "github.com/GeertJohan/go.rice"
 	"github.com/pressly/chi"
 	"github.com/pressly/chi/middleware"
 	"go.rls.moe/nyx/config"
@@ -10,8 +13,6 @@ import (
 	"go.rls.moe/nyx/http/board"
 	"go.rls.moe/nyx/http/errw"
 	"go.rls.moe/nyx/http/middle"
-	"net/http"
-	"time"
 )
 
 func Start(config *config.Config) error {
@@ -51,8 +52,8 @@ func Start(config *config.Config) error {
 		r.Use(mw)
 	}
 
-	r.Route("/admin/", admin.AdminRouter)
-	r.Route("/mod/", admin.ModRouter)
+	r.Route(config.Path+"/admin/", admin.AdminRouter)
+	r.Route(config.Path+"/mod/", admin.ModRouter)
 	{
 		box, err := rice.FindBox("res/")
 		if err != nil {

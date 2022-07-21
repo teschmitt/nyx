@@ -7,6 +7,7 @@ db:
 
 mastersecret: "changeme"
 listen_on: ":8080"
+path: "/subdir"
 
 captcha:
     mode: "internal"

@@ -3,16 +3,19 @@ package board
 import (
 	"bytes"
 	"errors"
-	"github.com/GeertJohan/go.rice"
-	"github.com/pressly/chi"
-	"github.com/tidwall/buntdb"
-	"go.rls.moe/nyx/http/errw"
-	"go.rls.moe/nyx/http/middle"
-	"go.rls.moe/nyx/resources"
 	"html/template"
+	"log"
 	"net/http"
 	"strconv"
 	"time"
+
+	rice "github.com/GeertJohan/go.rice"
+	"github.com/pressly/chi"
+	"github.com/tidwall/buntdb"
+	"go.rls.moe/nyx/config"
+	"go.rls.moe/nyx/http/errw"
+	"go.rls.moe/nyx/http/middle"
+	"go.rls.moe/nyx/resources"
 )
 
 var (
@@ -73,19 +76,24 @@ func LoadTemplates() error {
 }
 
 func Router(r chi.Router) {
-	r.Get("/", serveDir)
-	r.Get("/dir.html", serveDir)
-	r.Get("/:board/", serveBoard)
-	r.Get("/:board/board.html", serveBoard)
-	r.Post("/:board/new_thread.sh", handleNewThread)
-	r.Get("/:board/:thread/", serveThread)
-	r.Get("/:board/:thread/thread.html", serveThread)
-	r.Get("/:board/:thread/:reply/:unused.png", serveFullImage)
-	r.Get("/:board/:thread/:reply/thumb.png", serveThumb)
-	r.Post("/:board/:thread/reply.sh", handleNewReply)
-	r.Handle("/captcha/:captchaId.png", resources.ServeCaptcha)
-	r.Handle("/captcha/:captchaId.wav", resources.ServeCaptcha)
-	r.Handle("/captcha/download/:captchaId.wav", resources.ServeCaptcha)
+	c, err := config.Load()
+	if err != nil {
+		log.Printf("Could not read configuration: %s\n", err)
+		return
+	}
+	r.Get(c.Path+"/", serveDir)
+	r.Get(c.Path+"/dir.html", serveDir)
+	r.Get(c.Path+"/:board/", serveBoard)
+	r.Get(c.Path+"/:board/board.html", serveBoard)
+	r.Post(c.Path+"/:board/new_thread.sh", handleNewThread)
+	r.Get(c.Path+"/:board/:thread/", serveThread)
+	r.Get(c.Path+"/:board/:thread/thread.html", serveThread)
+	r.Get(c.Path+"/:board/:thread/:reply/:unused.png", serveFullImage)
+	r.Get(c.Path+"/:board/:thread/:reply/thumb.png", serveThumb)
+	r.Post(c.Path+"/:board/:thread/reply.sh", handleNewReply)
+	r.Handle(c.Path+"/captcha/:captchaId.png", resources.ServeCaptcha)
+	r.Handle(c.Path+"/captcha/:captchaId.wav", resources.ServeCaptcha)
+	r.Handle(c.Path+"/captcha/download/:captchaId.wav", resources.ServeCaptcha)
 }
 
 func serveThumb(w http.ResponseWriter, r *http.Request) {

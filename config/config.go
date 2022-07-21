@@ -2,9 +2,10 @@ package config
 
 import (
 	"flag"
-	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"os"
+
+	"gopkg.in/yaml.v2"
 )
 
 var configFileName = "./config.yml"
@@ -18,6 +19,7 @@ type Config struct {
 	DB                DBConfig      `yaml:"db"`               // Database Configuration
 	HostnameWhiteList []string      `yaml:"hosts"`            // List of valid hostnames, ignored if empty
 	ListenOn          string        `yaml:"listen_on"`        // Address & Port to use
+	Path              string        `yaml:"path"`             // Path to access installation
 	MasterSecret      string        `yaml:"secret"`           // Master Secret for keychain
 	DisableSecurity   bool          `yaml:"disable_security"` // Disables various flags to ensure non-HTTPS requests work
 	Captcha           CaptchaConfig `yaml:"captcha"`
@@ -63,6 +65,7 @@ func Load() (*Config, error) {
 		},
 		HostnameWhiteList: []string{},
 		ListenOn:          ":8080",
+		Path:              "",
 		MasterSecret:      "changeme",
 		DisableSecurity:   true,
 		Captcha: CaptchaConfig{
