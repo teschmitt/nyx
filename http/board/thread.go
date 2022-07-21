@@ -2,14 +2,15 @@ package board
 
 import (
 	"bytes"
+	"net/http"
+	"strconv"
+	"time"
+
 	"github.com/pressly/chi"
 	"github.com/tidwall/buntdb"
 	"go.rls.moe/nyx/http/errw"
 	"go.rls.moe/nyx/http/middle"
 	"go.rls.moe/nyx/resources"
-	"net/http"
-	"strconv"
-	"time"
 )
 
 func serveThread(w http.ResponseWriter, r *http.Request) {
@@ -23,6 +24,8 @@ func serveThread(w http.ResponseWriter, r *http.Request) {
 			return err
 		}
 		ctx["Board"] = b
+
+		ctx["Path"] = middle.GetConfig(r).Path
 
 		id, err := strconv.Atoi(chi.URLParam(r, "thread"))
 		if err != nil {

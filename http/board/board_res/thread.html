@@ -17,9 +17,6 @@
 {{ $path := .Config.Path }}
 <hr />
 {{ template "thread/post" . }}
-{{ with dict "Path" $path }}
-    {{ template "thread/postlists" . }}
-{{ end }}
-
+{{ template "thread/postlists" . }}
 </body>
 </html>
