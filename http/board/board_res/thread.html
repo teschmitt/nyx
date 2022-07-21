@@ -14,8 +14,12 @@
     <div class="site thread"><h3>{{.Thread.ID}}</h3></div>
 </div>
 {{ $boardlink := .Board.ShortName }}
+{{ $path := .Config.Path }}
 <hr />
 {{ template "thread/post" . }}
-{{ template "thread/postlists" . }}
+{{ with dict "Path" $path }}
+    {{ template "thread/postlists" . }}
+{{ end }}
+
 </body>
 </html>

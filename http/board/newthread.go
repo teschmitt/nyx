@@ -27,7 +27,7 @@ func handleNewThread(w http.ResponseWriter, r *http.Request) {
 	if middle.GetConfig(r).Captcha.Mode != config.CaptchaDisabled {
 		if !resources.VerifyCaptcha(r) {
 			http.Redirect(w, r,
-				fmt.Sprintf("/%s/board.html?err=wrong_captcha",
+				fmt.Sprintf(middle.GetConfig(r).Path+"/%s/board.html?err=wrong_captcha",
 					chi.URLParam(r, "board")),
 				http.StatusSeeOther)
 			return
@@ -43,7 +43,7 @@ func handleNewThread(w http.ResponseWriter, r *http.Request) {
 	err = parseReply(r, mainReply)
 	if err == trollThrottle {
 		http.Redirect(w, r,
-			fmt.Sprintf("/%s/board.html?err=trollthrottle",
+			fmt.Sprintf(middle.GetConfig(r).Path+"/%s/board.html?err=trollthrottle",
 				chi.URLParam(r, "board")),
 			http.StatusSeeOther)
 		return
@@ -60,5 +60,5 @@ func handleNewThread(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	http.Redirect(w, r, fmt.Sprintf("/%s/%d/thread.html", chi.URLParam(r, "board"), thread.ID), http.StatusSeeOther)
+	http.Redirect(w, r, fmt.Sprintf(middle.GetConfig(r).Path+"/%s/%d/thread.html", chi.URLParam(r, "board"), thread.ID), http.StatusSeeOther)
 }

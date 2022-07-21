@@ -2,15 +2,16 @@ package board
 
 import (
 	"fmt"
+	_ "image/gif"
+	_ "image/jpeg"
+	"net/http"
+
 	"github.com/pressly/chi"
 	"github.com/tidwall/buntdb"
 	"go.rls.moe/nyx/config"
 	"go.rls.moe/nyx/http/errw"
 	"go.rls.moe/nyx/http/middle"
 	"go.rls.moe/nyx/resources"
-	_ "image/gif"
-	_ "image/jpeg"
-	"net/http"
 )
 
 func handleNewReply(w http.ResponseWriter, r *http.Request) {
@@ -28,7 +29,7 @@ func handleNewReply(w http.ResponseWriter, r *http.Request) {
 	if middle.GetConfig(r).Captcha.Mode != config.CaptchaDisabled {
 		if !resources.VerifyCaptcha(r) {
 			http.Redirect(w, r,
-				fmt.Sprintf("/%s/%s/thread.html?err=wrong_captcha",
+				fmt.Sprintf(middle.GetConfig(r).Path+"/%s/%s/thread.html?err=wrong_captcha",
 					chi.URLParam(r, "board"), chi.URLParam(r, "thread")),
 				http.StatusSeeOther)
 			return
@@ -40,7 +41,7 @@ func handleNewReply(w http.ResponseWriter, r *http.Request) {
 	err = parseReply(r, reply)
 	if err == trollThrottle {
 		http.Redirect(w, r,
-			fmt.Sprintf("/%s/%s/thread.html?err=trollthrottle",
+			fmt.Sprintf(middle.GetConfig(r).Path+"/%s/%s/thread.html?err=trollthrottle",
 				chi.URLParam(r, "board"), chi.URLParam(r, "thread")),
 			http.StatusSeeOther)
 		return
@@ -61,5 +62,5 @@ func handleNewReply(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	http.Redirect(w, r, fmt.Sprintf("/%s/%d/thread.html", chi.URLParam(r, "board"), reply.Thread), http.StatusSeeOther)
+	http.Redirect(w, r, fmt.Sprintf(middle.GetConfig(r).Path+"/%s/%d/thread.html", chi.URLParam(r, "board"), reply.Thread), http.StatusSeeOther)
 }

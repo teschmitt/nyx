@@ -13,6 +13,7 @@
     <div class="site description"><h2>{{.Board.LongName}}</h2></div>
 </div>
 {{ $boardlink := .Board.ShortName }}
+{{ $path := .Config.Path }}
 {{ if .Session }}
 {{ if eq (.Session.CAttr "mode") "admin" }}
 Logged in as Admin
@@ -28,7 +29,7 @@ Logged in as Mod for {{ .Session.CAttr "board" }}
     {{ $csrf := .CSRFToken }}
     {{ $session := .Session }}
     {{range .Threads}}
-        {{ template "thread/postlists" dict "Thread" . "Board" $board "CSRFToken" $csrf "Session" $session }}
+        {{ template "thread/postlists" dict "Thread" . "Board" $board "Path" $path "CSRFToken" $csrf "Session" $session }}
     {{end}}
 </div>
 </body>

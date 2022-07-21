@@ -3,13 +3,14 @@ package admin
 import (
 	"encoding/json"
 	"fmt"
+	"net/http"
+	"strings"
+	"time"
+
 	"github.com/tidwall/buntdb"
 	"go.rls.moe/nyx/http/errw"
 	"go.rls.moe/nyx/http/middle"
 	"go.rls.moe/nyx/resources"
-	"net/http"
-	"strings"
-	"time"
 )
 
 func handleCleanup(w http.ResponseWriter, r *http.Request) {
@@ -119,7 +120,7 @@ func handleCleanup(w http.ResponseWriter, r *http.Request) {
 	}
 	fmt.Println("Finished Cleanup")
 
-	http.Redirect(w, r, "/admin/panel.html", http.StatusSeeOther)
+	http.Redirect(w, r, middle.GetConfig(r).Path+"/admin/panel.html", http.StatusSeeOther)
 }
 
 func detectType(key string) string {

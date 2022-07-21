@@ -11,7 +11,7 @@
 <body>
 <div class="welcome">
     Welcome {{.Admin.Id}}<br>
-    <form class="form logout" method="POST" action="/admin/logout.sh">
+    <form class="form logout" method="POST" action="{{ .Config.Path}}/admin/logout.sh">
         <input
                 type="hidden"
                 name="csrf_token"
@@ -21,7 +21,7 @@
 </div>
 <br clear="left" /><hr />
 <div class="postarea">
-    <form action="/admin/new_board.sh" method="POST">
+    <form action="{{ .Config.Path}}/admin/new_board.sh" method="POST">
         <table>
             <tbody>
             <tr>
@@ -65,7 +65,7 @@
 </div>
 <br clear="left" /><hr />
 <div class="postarea">
-    <form action="/admin/new_admin.sh" method="POST">
+    <form action="{{ .Config.Path}}/admin/new_admin.sh" method="POST">
         <table>
             <tbody>
             <tr>
@@ -117,7 +117,7 @@
 </div>
 <br clear="left" /><hr />
 <div class="postarea">
-    <form action="/admin/del_admin.sh" method="POST">
+    <form action="{{ .Config.Path}}/admin/del_admin.sh" method="POST">
         <table>
             <tbody>
             <tr>
@@ -157,7 +157,7 @@
 </div>
 <br clear="left" /><hr />
 <div class="postarea">
-    <form action="/admin/cleanup.sh" method="POST">
+    <form action="{{ .Config.Path}}/admin/cleanup.sh" method="POST">
         <table>
             <tbody>
             <tr>
@@ -185,7 +185,7 @@
 </div>
 <br clear="left" /><hr />
 <div class="postarea">
-    <form action="/admin/set_rules.sh" method="POST">
+    <form action="{{ .Config.Path}}/admin/set_rules.sh" method="POST">
         <table>
             <tbody>
             <tr>

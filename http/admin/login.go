@@ -1,21 +1,22 @@
 package admin
 
 import (
+	"net/http"
+
 	"github.com/icza/session"
 	"github.com/tidwall/buntdb"
 	"go.rls.moe/nyx/http/errw"
 	"go.rls.moe/nyx/http/middle"
 	"go.rls.moe/nyx/resources"
-	"net/http"
 )
 
 func handleLogout(w http.ResponseWriter, r *http.Request) {
 	sess := middle.GetSession(r)
 	if sess == nil {
-		http.Redirect(w, r, "/admin/index.html", http.StatusSeeOther)
+		http.Redirect(w, r, middle.GetConfig(r).Path+"/admin/index.html", http.StatusSeeOther)
 	}
 	session.Remove(sess, w)
-	http.Redirect(w, r, "/admin/index.html", http.StatusSeeOther)
+	http.Redirect(w, r, middle.GetConfig(r).Path+"/admin/index.html", http.StatusSeeOther)
 }
 func handleLogin(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseForm()
@@ -46,5 +47,5 @@ func handleLogin(w http.ResponseWriter, r *http.Request) {
 	})
 	session.Add(sess, w)
 
-	http.Redirect(w, r, "/admin/panel.html", http.StatusSeeOther)
+	http.Redirect(w, r, middle.GetConfig(r).Path+"/admin/panel.html", http.StatusSeeOther)
 }

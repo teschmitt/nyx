@@ -137,7 +137,7 @@
     <span class="date">{{dateFromID .Reply.ID | formatDate}}</span>
     {{ if .Session }}
     {{ if eq (.Session.CAttr "mode") "admin" }}
-    <form class="delform" action="/mod/del_reply.sh" method="POST">
+    <form class="delform" action="{{ .Config.Path}}/mod/del_reply.sh" method="POST">
         <input
                 type="hidden"
                 name="csrf_token"
@@ -170,13 +170,13 @@
         {{ end }}
     </span>
     <span class="reflink">
-        <a href="{{.Config.Path}}/{{.Boardlink}}/{{.ThreadID}}/thread.html">No.{{.Reply.ID}}</a>
+        <a href="{{.Path}}/{{.Boardlink}}/{{.ThreadID}}/thread.html">No.{{.Reply.ID}}</a>
     </span>
     {{ if .Reply.Thumbnail }}
     <br />
-    <a target="_blank" href="{{.Config.Path}}/{{.Boardlink}}/{{.ThreadID}}/{{.Reply.ID}}/{{.Reply.ID}}.png">
+    <a target="_blank" href="{{.Path}}/{{.Boardlink}}/{{.ThreadID}}/{{.Reply.ID}}/{{.Reply.ID}}.png">
     <img
-            src="{{.Config.Path}}/{{.Boardlink}}/{{.ThreadID}}/{{.Reply.ID}}/thumb.png"
+            src="{{.Path}}/{{.Boardlink}}/{{.ThreadID}}/{{.Reply.ID}}/thumb.png"
             class="thumb"
     />
     </a>
@@ -195,13 +195,14 @@
 {{ define "thread/main" }}
 <div class="postlists">
     {{ $boardlink := .Board.ShortName }}
+    {{ $path := .Path }}
     {{ $threadrid := .Thread.GetReply.ID }}
     {{ $threadid := .Thread.ID }}
     {{ $csrf := .CSRFToken }}
     {{ $session := .Session }}
     {{ with .Thread }}
         {{ with .GetReply }}
-        {{ with dict "Reply" . "Boardlink" $boardlink "CSRF" $csrf "ThreadID" $threadid "Session" $session }}
+        {{ with dict "Reply" . "Path" $path "Boardlink" $boardlink "CSRF" $csrf "ThreadID" $threadid "Session" $session }}
             {{ template "thread/reply" . }}
         {{ end }}
         {{ end }}
@@ -209,7 +210,7 @@
     {{ if ne .ID $threadrid }}
     <table class="reply-table"><tbody><tr><td class="doubledash">&gt;&gt;</td>
         <td class="reply" id="reply{{.ID}}">
-            {{ with dict "Reply" . "Boardlink" $boardlink "CSRF" $csrf "ThreadID" $threadid "Session" $session }}
+            {{ with dict "Reply" . "Path" $path "Boardlink" $boardlink "CSRF" $csrf "ThreadID" $threadid "Session" $session }}
             {{ template "thread/reply" . }}
             {{ end }}
         </td>

@@ -2,11 +2,12 @@ package admin
 
 import (
 	"errors"
+	"net/http"
+
 	"github.com/tidwall/buntdb"
 	"go.rls.moe/nyx/http/errw"
 	"go.rls.moe/nyx/http/middle"
 	"go.rls.moe/nyx/resources"
-	"net/http"
 )
 
 func handleNewBoard(w http.ResponseWriter, r *http.Request) {
@@ -52,5 +53,5 @@ func handleNewBoard(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	http.Redirect(w, r, "/admin/panel.html", http.StatusSeeOther)
+	http.Redirect(w, r, middle.GetConfig(r).Path+"/admin/panel.html", http.StatusSeeOther)
 }
