@@ -1,0 +1,1 @@
+build/nyx -config config.yml

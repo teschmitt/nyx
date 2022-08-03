@@ -1,0 +1,25 @@
+start_here=$(pwd)
+cd "$start_here/http"
+rice -v embed-go
+
+echo "---------------------------------------------------------------------------"
+
+cd "$start_here/http/board"
+rice -v embed-go
+
+echo "---------------------------------------------------------------------------"
+
+cd "$start_here/http/admin"
+rice -v embed-go
+
+echo "---------------------------------------------------------------------------"
+
+cd "$start_here/http/errw"
+rice -v embed-go
+
+echo "---------------------------------------------------------------------------"
+
+
+cd $start_here
+
+rm -rf build/nyx && go build -o ./build && build/nyx -config config.yml
