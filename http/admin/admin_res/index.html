@@ -10,7 +10,7 @@
 </head>
 <body>
     <div class="admin login">
-        <form action="/admin/login.sh" method="POST">
+        <form action="{{ .Config.Path}}/admin/login.sh" method="POST">
             <input
                 type="hidden"
                 name="csrf_token"

@@ -20,7 +20,7 @@
             <ul>
                 {{range .Boards}}
                     <li>
-                        <a class="boardlink" href="/{{ .ShortName}}/board.html">{{.ShortName}}: {{.LongName}}</a>
+                        <a class="boardlink" href="{{$.Config.Path}}/{{ .ShortName}}/board.html">{{.ShortName}}: {{.LongName}}</a>
                     </li>
                 {{end}}
             </ul>

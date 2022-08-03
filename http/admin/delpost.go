@@ -1,13 +1,14 @@
 package admin
 
 import (
-	"go.rls.moe/nyx/http/errw"
-	"go.rls.moe/nyx/http/middle"
-	"strconv"
-	"go.rls.moe/nyx/resources"
 	"fmt"
 	"net/http"
+	"strconv"
+
 	"github.com/tidwall/buntdb"
+	"go.rls.moe/nyx/http/errw"
+	"go.rls.moe/nyx/http/middle"
+	"go.rls.moe/nyx/resources"
 )
 
 func handleDelPost(w http.ResponseWriter, r *http.Request) {
@@ -70,5 +71,5 @@ func handleDelPost(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	http.Redirect(w, r, fmt.Sprintf("/%s/%d/thread.html", board, trid), http.StatusSeeOther)
+	http.Redirect(w, r, fmt.Sprintf(middle.GetConfig(r).Path+"/%s/%d/thread.html", board, trid), http.StatusSeeOther)
 }

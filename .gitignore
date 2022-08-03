@@ -1,4 +1,5 @@
 config.yml
-nyx-testing.db
 nyx
 run.sh
+*.db
+make_*
